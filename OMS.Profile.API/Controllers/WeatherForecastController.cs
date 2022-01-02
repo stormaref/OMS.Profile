@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using OMS.Profile.Application;
+using OMS.Profile.Application.Common.IntegrationEvents.Events;
 
 namespace OMS.Profile.API.Controllers;
 
@@ -12,21 +14,25 @@ public class WeatherForecastController : ControllerBase
     };
 
     private readonly ILogger<WeatherForecastController> _logger;
+    private readonly IProducer _producer;
 
-    public WeatherForecastController(ILogger<WeatherForecastController> logger)
+    public WeatherForecastController(ILogger<WeatherForecastController> logger, IProducer producer)
     {
         _logger = logger;
+        _producer = producer;
     }
 
     [HttpGet(Name = "GetWeatherForecast")]
-    public IEnumerable<WeatherForecast> Get()
+    public async Task<IEnumerable<WeatherForecast>> Get()
     {
+        await Task.WhenAll(_producer.ProduceAsync(new HelloEvent(DateTime.Now)),
+            _producer.ProduceAsync(new ByeEvent(DateTime.Now)));
         return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        {
-            Date = DateTime.Now.AddDays(index),
-            TemperatureC = Random.Shared.Next(-20, 55),
-            Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        })
-        .ToArray();
+            {
+                Date = DateTime.Now.AddDays(index),
+                TemperatureC = Random.Shared.Next(-20, 55),
+                Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+            })
+            .ToArray();
     }
 }
