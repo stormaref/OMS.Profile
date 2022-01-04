@@ -22,4 +22,10 @@
       <ProjectReference Include="..\OMS.Profile.Infrastructure\OMS.Profile.Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Reference Include="KafkaStorm, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+        <HintPath>..\..\..\KafkaStorm\KafkaStorm\bin\Debug\netstandard2.1\KafkaStorm.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

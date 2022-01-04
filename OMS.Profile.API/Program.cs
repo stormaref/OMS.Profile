@@ -1,4 +1,5 @@
 using Confluent.Kafka;
+using KafkaStorm.Extensions;
 using OMS.Profile.API.Common.Extensions;
 using OMS.Profile.Application;
 using OMS.Profile.Application.Common.IntegrationEvents.EventConsumers;
@@ -10,9 +11,25 @@ var builder = WebApplication.CreateBuilder(args);
 builder.ConfigSeq();
 builder.Services.AddOptions();
 builder.AddSettings<KafkaSettings>();
-builder.Services.AddScoped<IProducer, Producer>();
-builder.Services.AddConsumer<HelloConsumer, HelloEvent>();
-builder.Services.AddConsumer<ByeConsumer, ByeEvent>();
+
+builder.Services.AddKafkaStorm(factory =>
+{
+    factory.SetConsumerConfig(new ConsumerConfig()
+    {
+        BootstrapServers = "localhost:29092",
+        GroupId = "TestGroup"
+    });
+
+    factory.AddProducer(new ProducerConfig()
+    {
+        BootstrapServers = "localhost:29092",
+    });
+
+    factory.AddConsumer<HelloConsumer, HelloEvent>();
+});
+// builder.Services.AddScoped<IProducer, Producer>();
+// builder.Services.AddConsumer<HelloConsumer, HelloEvent>();
+// builder.Services.AddConsumer<ByeConsumer, ByeEvent>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,5 +1,5 @@
+using KafkaStorm.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using OMS.Profile.Application;
 using OMS.Profile.Application.Common.IntegrationEvents.Events;
 
 namespace OMS.Profile.API.Controllers;

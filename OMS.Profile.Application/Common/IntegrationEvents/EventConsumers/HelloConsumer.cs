@@ -1,6 +1,6 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using KafkaStorm.Interfaces;
+using Microsoft.Extensions.Logging;
 using OMS.Profile.Application.Common.IntegrationEvents.Events;
-using OMS.Profile.Application.Common.Interfaces;
 
 namespace OMS.Profile.Application.Common.IntegrationEvents.EventConsumers;
 
