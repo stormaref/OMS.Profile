@@ -11,7 +11,7 @@ builder.ConfigSeq();
 // builder.Services.AddOptions();
 // builder.AddSettings<KafkaSettings>();
 
-var kafkaSettings = builder.Configuration.GetSection(nameof(KafkaSettings)) as KafkaSettings;
+var kafkaSettings = builder.Configuration.GetSection(nameof(KafkaSettings)).Get<KafkaSettings>();
 
 builder.Services.AddKafkaStorm(factory =>
 {
