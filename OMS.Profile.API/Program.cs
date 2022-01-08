@@ -1,35 +1,34 @@
 using Confluent.Kafka;
 using KafkaStorm.Extensions;
 using OMS.Profile.API.Common.Extensions;
-using OMS.Profile.Application;
+using OMS.Profile.API.Common.Settings;
 using OMS.Profile.Application.Common.IntegrationEvents.EventConsumers;
 using OMS.Profile.Application.Common.IntegrationEvents.Events;
-using OMS.Profile.Application.Common.Settings;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.ConfigSeq();
-builder.Services.AddOptions();
-builder.AddSettings<KafkaSettings>();
+// builder.Services.AddOptions();
+// builder.AddSettings<KafkaSettings>();
+
+var kafkaSettings = builder.Configuration.GetSection(nameof(KafkaSettings)) as KafkaSettings;
 
 builder.Services.AddKafkaStorm(factory =>
 {
     factory.SetConsumerConfig(new ConsumerConfig()
     {
-        BootstrapServers = "localhost:29092",
-        GroupId = "TestGroup"
+        BootstrapServers = kafkaSettings.BootstrapServer,
+        GroupId = kafkaSettings.GroupId
     });
 
     factory.AddProducer(new ProducerConfig()
     {
-        BootstrapServers = "localhost:29092",
+        BootstrapServers = kafkaSettings.BootstrapServer,
     });
 
     factory.AddConsumer<HelloConsumer, HelloEvent>();
+    factory.AddConsumer<ByeConsumer, ByeEvent>();
 });
-// builder.Services.AddScoped<IProducer, Producer>();
-// builder.Services.AddConsumer<HelloConsumer, HelloEvent>();
-// builder.Services.AddConsumer<ByeConsumer, ByeEvent>();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

@@ -1,4 +1,4 @@
-﻿namespace OMS.Profile.Application.Common.Settings;
+﻿namespace OMS.Profile.API.Common.Settings;
 
 public class KafkaSettings
 {

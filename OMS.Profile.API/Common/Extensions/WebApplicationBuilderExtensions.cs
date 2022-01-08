@@ -1,5 +1,4 @@
-﻿using OMS.Profile.Application.Common.Settings;
-using Serilog;
+﻿using Serilog;
 
 namespace OMS.Profile.API.Common.Extensions;
 

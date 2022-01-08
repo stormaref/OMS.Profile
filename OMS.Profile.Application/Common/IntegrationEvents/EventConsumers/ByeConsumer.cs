@@ -1,5 +1,5 @@
-﻿using OMS.Profile.Application.Common.IntegrationEvents.Events;
-using OMS.Profile.Application.Common.Interfaces;
+﻿using KafkaStorm.Interfaces;
+using OMS.Profile.Application.Common.IntegrationEvents.Events;
 
 namespace OMS.Profile.Application.Common.IntegrationEvents.EventConsumers;
 
